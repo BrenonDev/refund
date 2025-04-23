@@ -11,6 +11,7 @@ const expensesTotal = document.querySelector("aside header h2")
 
 // Captura o evento de input para formatar o valor.
 amount.oninput = () => {
+
     // Obtém o valor atual do input e remove os caracteres não numéricos.
     let value = amount.value.replace(/\D/g, "")
     
@@ -21,7 +22,9 @@ amount.oninput = () => {
     amount.value = formatCurrencyBRL(value)
 }
 
+// Formata o valor.
 function formatCurrencyBRL(value) {
+
     // Formata o valor no padrão BRL (Real Brasileiro).
     value = value.toLocaleString("pt-BR", {
         style: "currency",
@@ -34,6 +37,7 @@ function formatCurrencyBRL(value) {
 
 // Captura o evento de submit do formulário para obter os valores.
 form.onsubmit = (event) => {
+
     // Previne o comportamento padrão de recarregar a página.
     event.preventDefault()
 
@@ -98,6 +102,9 @@ function expenseAdd(newExpense) {
         // Atualiza os totais.
         updateTotals()
 
+        // Limpa o formulário para adicionar um novo item.
+        formClear()
+
     } catch (error) {
         alert("Não foi possível atualizar a lista de despesas.")
         console.log(error)
@@ -157,8 +164,29 @@ function updateTotals() {
 
 // Evento que captura o clique nos itens da lista.
 expenseList.addEventListener("click", function (event) {
+
     // Verifica se o elemento clicado é o item para remover.
     if (event.target.classList.contains("remove-icon")) {
-        console.log(event)
+
+        // Obtém a li pai do elemento clicado.
+        const item = event.target.closest(".expense")
+
+        //Remove o item da lista.
+        item.remove()
     }
+
+    // Atualiza os totais.
+    updateTotals()
 })
+
+// Limpa os inputs.
+function formClear() {
+    
+    // Limpa os inputs.
+    expense.value = ""
+    category.value = ""
+    amount.value = ""
+
+    // Coloca o foco no input de amount.
+    expense.focus()
+}
